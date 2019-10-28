@@ -8,7 +8,7 @@ export class Message extends Component {
         super(props);
 
         this.state = {
-            message: this.props.info.onMakingMessage + this.props.info.name,
+            message: this.props.info.onMakingMessage,
             backColor: '#78DAF9'
         }
         this.el = document.createElement('div');

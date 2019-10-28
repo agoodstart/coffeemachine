@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom'
+import Feeder from './components/Feeder';
 import background from './rect3717.png'
 import Coffees from './components/Coffees'
 import Extras from './components/Extras';
-import Message from './components/Message';
 import SweetCoffeeMock from './controller/SweetCoffeeMock';
 import './App.css';
 import {ExtrasContextProvider} from './context';
@@ -13,10 +12,9 @@ class App extends Component {
     super(props);
 
     this.sweetCoffeeMock = new SweetCoffeeMock();
+    this.childRef = React.createRef();
     
     this.state = {
-      message : '',
-
       extras: [
       {
         id: 1, 
@@ -71,14 +69,21 @@ class App extends Component {
     console.log('Component Did update');
   }
 
-  makeCoffee = (make, milk, sugar) => {
-    const cb = make(milk.amount, sugar.amount);
-    return cb;
+  sendDataToFeeder(obj) {
+    this.childRef.current.getData(obj);
+  }
+
+  makeCoffee = (make, milk, sugar, name) => {
+    const obj = make(milk.amount, sugar.amount);
+    obj.info.onMakingMessage += name;
+    this.sendDataToFeeder(obj)
   }
 
   render() {
     return (
       <React.Fragment>
+        <Feeder ref={this.childRef} />
+
         <img src={background} alt="foto" className="picture" />
         <div className="container">
           <ExtrasContextProvider cExtras={this.state.extras}>

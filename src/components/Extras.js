@@ -27,6 +27,7 @@ const Extras = () => {
                 <Extra
                 {...extra}
                 setChange={setChange}
+                key={extra.id}
                 />
             ))}
         </div>
