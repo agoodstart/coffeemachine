@@ -8,25 +8,24 @@ export class Message extends Component {
         super(props);
 
         this.state = {
-            message: this.props.info.onMakingMessage,
+            message: this.props.message,
             backColor: '#78DAF9'
         }
         this.el = document.createElement('div');
     }
     
-
-    el = document.createElement('div');
-
     componentDidMount() {
         modal.appendChild(this.el)
+        console.log(this.props)
         this.el.classList.add('modal');
-        setTimeout(() => {
-            this.setState({
-                message: 'Klaar voor keuze',
-                backColor: '#00ff00'
-            })
-        }, 4000);
+        // setTimeout(() => {
+        //     this.setState({
+        //         message: 'Klaar voor keuze',
+        //         backColor: '#00ff00'
+        //     })
+        // }, 4000);
     }
+
     componentWillUnmount() {
         modal.removeChild(this.el)
     }
