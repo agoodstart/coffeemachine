@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 
 const modal = document.getElementById('AppWrapper');
 
-export class Message extends Component {
+export class Modal extends Component {
     constructor(props) {
         super(props);
 
@@ -53,4 +53,4 @@ export class Message extends Component {
     }
 }
 
-export default Message;
+export default Modal;

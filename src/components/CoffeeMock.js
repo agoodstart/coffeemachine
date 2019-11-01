@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 import { ExtrasContext } from './../context';
+import Button from '@material-ui/core/Button';
 
 const Coffee = props => {
     const { name, make } = props.coffee;
@@ -10,7 +11,10 @@ const Coffee = props => {
         props.makeCoffee(make, cExtras[0], cExtras[1], name);
     }
 
-    return <button onClick={onClick}> {name} </button>
+    return <Button 
+            size="large" 
+            variant="outlined" 
+            onClick={onClick}> {name} </Button>
 }
 
 export default Coffee;

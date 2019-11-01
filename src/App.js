@@ -82,10 +82,10 @@ class App extends Component {
   render() {
     return (
       <React.Fragment>
-        <Feeder ref={this.childRef} />
 
         <img src={background} alt="foto" className="picture" />
         <div className="container">
+
           <ExtrasContextProvider cExtras={this.state.extras}>
             <Coffees 
               coffees={this.state.coffees}
@@ -93,6 +93,8 @@ class App extends Component {
             />
             <Extras />
           </ExtrasContextProvider>
+
+          <Feeder ref={this.childRef} />
         </div>
       </React.Fragment>
     );

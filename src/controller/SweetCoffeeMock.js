@@ -103,6 +103,7 @@ class SweetCoffeeMachine {
 	 * tiggers a response in a minute
 	 */
 	readyCallback = (callback) => { 
+		console.log(callback);
 		return new Promise(resolve => setTimeout(() => resolve(callback()), 5000));
 	}
 	

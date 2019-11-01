@@ -1,8 +1,11 @@
 class Thenable {
-  constructor(num) {
-    this.num = num;
+  constructor(callback, time) {
+    this.callback = callback;
+    this.time = time;
   }
   then(resolve, reject) {
-    setTimeout(() => resolve(this.num * 2), 1000); // (**)
+    setTimeout(() => resolve(this.callback()), this.time); // (**)
   }
 }
+
+export default Thenable;
