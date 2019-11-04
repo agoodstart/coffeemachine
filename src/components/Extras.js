@@ -12,7 +12,6 @@ const Extras = () => {
     });
 
     const setChange = (id, value) => {
-        console.log('it changed')
         setExtras(extras.map(extra => {
             if(extra.id === id) {
                 extra.amount = value;
@@ -22,7 +21,7 @@ const Extras = () => {
     }
 
     return (
-        <div>
+        <div style={sliders}>
             {extras.map((extra) => (
                 <Extra
                 {...extra}
@@ -32,6 +31,11 @@ const Extras = () => {
             ))}
         </div>
     );
+}
+
+const sliders = {
+    display: 'flex',
+    justifyContent: 'space-around'
 }
 
 export default Extras;

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import ColorPalette from './ColorPalette';
 import Feeder from './components/Feeder';
 import background from './rect3717.png'
 import Coffees from './components/Coffees'
@@ -81,7 +82,7 @@ class App extends Component {
 
   render() {
     return (
-      <React.Fragment>
+      <ColorPalette>
 
         <img src={background} alt="foto" className="picture" />
         <div className="container">
@@ -96,7 +97,7 @@ class App extends Component {
 
           <Feeder ref={this.childRef} />
         </div>
-      </React.Fragment>
+      </ColorPalette>
     );
   }
 }

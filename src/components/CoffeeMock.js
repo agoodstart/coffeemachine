@@ -11,10 +11,16 @@ const Coffee = props => {
         props.makeCoffee(make, cExtras[0], cExtras[1], name);
     }
 
-    return <Button 
+    return <Button style={buttonStyle}
             size="large" 
-            variant="outlined" 
+            variant="contained" 
+            color="primary"
             onClick={onClick}> {name} </Button>
+}
+
+const buttonStyle = {
+    width: '150px',
+    height: '100px'
 }
 
 export default Coffee;

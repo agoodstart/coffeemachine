@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import Typography from '@material-ui/core/Typography';
+import {withStyles, createStyles} from '@material-ui/styles'
 
 export class StatusMessage extends Component {
     constructor(props) {
@@ -29,12 +31,23 @@ export class StatusMessage extends Component {
     
 
     render() {
+        const {classes} = this.props;
         return (
             <div>
-                <h1>{this.state.message}</h1>
+                <Typography className={classes.statusText} variant="h5" gutterBottom>
+                    {this.state.message}
+                </Typography>
+                {/* <h1 style={centerText}>{this.state.message}</h1> */}
             </div>
         );
     }
 }
 
-export default StatusMessage;
+const styles = createStyles((theme) => ({
+  statusText: {
+    color: theme.palette.secondary.light,
+    textAlign: 'center'
+  },
+}));
+
+export default withStyles(styles)(StatusMessage);

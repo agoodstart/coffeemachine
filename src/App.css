@@ -29,6 +29,10 @@ body {
   bottom: 63px;
   right: 71px;
   z-index: 100;
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: space-around;
+  padding: 20px;
 }
 
 .picture {

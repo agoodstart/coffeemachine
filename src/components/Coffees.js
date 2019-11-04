@@ -5,7 +5,7 @@ class Coffees extends Component {
 
     render() {
         return (
-        <div>
+        <div style={divStyle}>
             {this.props.coffees.map((coffee) => (
             <Coffee
                 key={coffee.id}
@@ -16,6 +16,13 @@ class Coffees extends Component {
         </div>
         )
     }
+}
+
+const divStyle = {
+    display: 'flex',
+    flexFlow: 'wrap row',
+    justifyContent: 'space-around',
+    height: '230px',
 }
 
 export default Coffees;
