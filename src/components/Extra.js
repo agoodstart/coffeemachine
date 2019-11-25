@@ -1,6 +1,6 @@
 import React from 'react';
 import Typography from '@material-ui/core/Typography';
-import { withStyles, makeStyles, createStyles } from '@material-ui/core/styles';
+import { withStyles, makeStyles } from '@material-ui/core/styles';
 import Slider from '@material-ui/core/Slider';
 
 const styles = makeStyles((theme) => ({
@@ -56,7 +56,7 @@ const Extra = (props) => {
 
     return (
         <div style={sliderWidth}>
-            <Typography id="discrete-slider-always" gutterBottom className={classes.extraText} style={textRight}>
+            <Typography id="discrete-slider-always" gutterBottom className={classes.extraText}>
                 {props.name}
             </Typography>
             <PrettoSlider
@@ -72,11 +72,6 @@ const Extra = (props) => {
             />
         </div>
     )
-}
-
-const textRight = {
-    textAlign: 'right',
-    marginRight: '10px'
 }
 
 const sliderWidth = {

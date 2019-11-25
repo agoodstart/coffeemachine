@@ -37,7 +37,6 @@ export class StatusMessage extends Component {
                 <Typography className={classes.statusText} variant="h5" gutterBottom>
                     {this.state.message}
                 </Typography>
-                {/* <h1 style={centerText}>{this.state.message}</h1> */}
             </div>
         );
     }

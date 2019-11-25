@@ -70,6 +70,15 @@ class App extends Component {
     console.log('Component Did update');
   }
 
+  updateState(milk, sugar) {
+    this.setState({extras: this.state.extras[0].amount = sugar})
+    this.setState({extras: this.state.extras[0].amount = sugar})
+    console.log(
+      `milk: ${milk},
+      sugar: ${sugar}`
+    );
+  }
+
   sendDataToFeeder(obj) {
     this.childRef.current.getData(obj);
   }
@@ -95,7 +104,7 @@ class App extends Component {
             <Extras />
           </ExtrasContextProvider>
 
-          <Feeder ref={this.childRef} />
+          <Feeder updateState={this.updateState} ref={this.childRef} />
         </div>
       </ColorPalette>
     );
