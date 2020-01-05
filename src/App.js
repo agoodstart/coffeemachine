@@ -14,6 +14,11 @@ class App extends Component {
 
     this.sweetCoffeeMock = new SweetCoffeeMock();
     this.childRef = React.createRef();
+
+    this.disableCapo = () => this.sweetCoffeeMock.milk <= 0 || this.sweetCoffeeMock.sugar <= 0;
+
+    this.disableSugar = () => this.sweetCoffeeMock.sugar <= 0;
+    this.disableMilk = () => this.sweetCoffeeMock.milk <= 0;
     
     this.state = {
       extras: [
@@ -22,12 +27,14 @@ class App extends Component {
         name: 'Suiker',
         amount: this.sweetCoffeeMock.sugar,
         defaultValue: 0.5,
+        disabled: this.disableSugar()
       },
       {
         id: 2,
         name: 'Melk',
         amount: this.sweetCoffeeMock.milk,
         defaultValue: 0.5,
+        disabled: this.disableMilk()
       }
     ],
 
@@ -35,58 +42,86 @@ class App extends Component {
       {
         id: 1,
         name: 'Americano',
-        make: this.sweetCoffeeMock.makeAmericano
+        make: this.sweetCoffeeMock.makeAmericano,
+        disabled: false
       },
       {
         id: 2,
         name: 'Cappuccino',
-        make: this.sweetCoffeeMock.makeCapoccino
+        make: this.sweetCoffeeMock.makeCapoccino,
+        disabled: this.disableCapo()
       },
       {
         id: 3,
         name: 'Wiener melange',
-        make: this.sweetCoffeeMock.makeWienerMelange
+        make: this.sweetCoffeeMock.makeWienerMelange,
+        disabled: false
       },
       {
         id: 4,
         name: 'Chocolade',
-        make: this.sweetCoffeeMock.makeChoco
+        make: this.sweetCoffeeMock.makeChoco,
+        disabled: false
       },
       {
         id: 5,
         name: 'Zwarte thee',
-        make: this.sweetCoffeeMock.makeBlackTea
+        make: this.sweetCoffeeMock.makeBlackTea,
+        disabled: false
       },
       {
         id: 6,
         name: 'Earl Gray',
-        make: this.sweetCoffeeMock.makeEarlGray
+        make: this.sweetCoffeeMock.makeEarlGray,
+        disabled: false
       }
     ]
     }
   }
 
-  componentDidUpdate() {
-    console.log('Component Did update');
+  componentDidMount() {
+    console.log('Component mounted');
   }
 
-  updateState(milk, sugar) {
-    this.setState({extras: this.state.extras[0].amount = sugar})
-    this.setState({extras: this.state.extras[0].amount = sugar})
-    console.log(
-      `milk: ${milk},
-      sugar: ${sugar}`
-    );
+  componentDidUpdate() {
+    console.log('Component Did update');
+    console.log(this.state.extras);
+  }
+
+  updateState = (milk, sugar) => {
+    this.setState({extras: this.state.extras.map(extra => {
+      if(extra.name === 'Suiker') {
+        extra.amount = this.sweetCoffeeMock.sugar
+        if(extra.amount <= 0) {
+          extra.disabled = true;
+        }
+      } else if(extra.name === 'Melk') {
+        extra.amount = this.sweetCoffeeMock.milk
+        if(extra.amount <= 0) {
+          extra.disabled = true;
+        }
+      }
+      return extra;
+    }),
+    coffees: this.state.coffees.map(coffee => {
+      if(coffee.name === 'Cappuccino') {
+        if(this.sweetCoffeeMock.sugar <= 0 || this.sweetCoffeeMock.milk <= 0) {
+          coffee.disabled = true;
+        }
+      }
+      return coffee;
+    })
+  });
   }
 
   sendDataToFeeder(obj) {
-    this.childRef.current.getData(obj);
+    this.childRef.current.getData(obj, this.state);
   }
 
   makeCoffee = (make, milk, sugar, name) => {
-    const obj = make(milk.amount, sugar.amount);
-    obj.info.onMakingMessage += name;
-    this.sendDataToFeeder(obj)
+      const obj = make(milk.amount, sugar.amount);
+      obj.info.onMakingMessage += name;
+      this.sendDataToFeeder(obj)
   }
 
   render() {

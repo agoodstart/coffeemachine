@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import Coffee from './CoffeeMock';
 
 class Coffees extends Component {
-
     render() {
         return (
         <div style={divStyle}>

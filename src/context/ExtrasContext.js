@@ -1,5 +1,4 @@
 import React, { createContext, useState } from "react";
-// import PropTypes from "prop-types";
 
 export const Context = createContext({});
 
@@ -14,7 +13,7 @@ export const Provider = props => {
 
     const extrasContext = {
         cExtras,
-        cSetExtras,
+        cSetExtras
     };
 
     return (

@@ -69,6 +69,7 @@ const Extra = (props) => {
                 valueLabelDisplay="on"
                 valueLabelFormat={valuetext}
                 onChange={onChange}
+                disabled={props.disabled}
             />
         </div>
     )

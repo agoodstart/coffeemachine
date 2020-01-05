@@ -6,4 +6,4 @@ import 'typeface-roboto';
 
 ReactDOM.render(<App />, document.getElementById('App'));
 
-serviceWorker.unregister();
+// serviceWorker.unregister();

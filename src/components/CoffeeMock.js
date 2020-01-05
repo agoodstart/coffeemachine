@@ -28,6 +28,7 @@ const Coffee = props => {
                 size="large" 
                 variant="contained" 
                 color="primary"
+                disabled={props.coffee.disabled}
                 onClick={onClick}> {name} 
             </Button>
 }

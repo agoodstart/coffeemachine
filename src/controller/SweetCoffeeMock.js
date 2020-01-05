@@ -16,6 +16,9 @@ class SweetCoffeeMachine {
 	
 	checkMilkAndSugar = (sugar, milk) => {
 		if(sugar && milk) {
+			this.milk -= milk.toFixed(2);
+			this.sugar -= sugar.toFixed(2);
+
 			return {
 				callback: this.readyCallback,
 				info: {
