@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import ColorPalette from './ColorPalette';
 import Feeder from './components/Feeder';
-import background from './rect3717.png'
-import Coffees from './components/Coffees'
+import background from './rect3717.png';
+import Coffees from './components/Coffees';
 import Extras from './components/Extras';
 import SweetCoffeeMock from './controller/SweetCoffeeMock';
 import './App.css';
@@ -19,6 +19,8 @@ class App extends Component {
 
     this.disableSugar = () => this.sweetCoffeeMock.sugar <= 0;
     this.disableMilk = () => this.sweetCoffeeMock.milk <= 0;
+
+    this.disableChocoladeAndWiener = () => this.sweetCoffeeMock.chocolate <= 0;
     
     this.state = {
       extras: [
@@ -26,14 +28,14 @@ class App extends Component {
         id: 1, 
         name: 'Suiker',
         amount: this.sweetCoffeeMock.sugar,
-        defaultValue: 0.5,
+        defaultValue: 0,
         disabled: this.disableSugar()
       },
       {
         id: 2,
         name: 'Melk',
         amount: this.sweetCoffeeMock.milk,
-        defaultValue: 0.5,
+        defaultValue: 0,
         disabled: this.disableMilk()
       }
     ],
@@ -55,13 +57,13 @@ class App extends Component {
         id: 3,
         name: 'Wiener melange',
         make: this.sweetCoffeeMock.makeWienerMelange,
-        disabled: false
+        disabled: this.disableChocoladeAndWiener()
       },
       {
         id: 4,
         name: 'Chocolade',
         make: this.sweetCoffeeMock.makeChoco,
-        disabled: false
+        disabled: this.disableChocoladeAndWiener()
       },
       {
         id: 5,
@@ -92,12 +94,12 @@ class App extends Component {
     this.setState({extras: this.state.extras.map(extra => {
       if(extra.name === 'Suiker') {
         extra.amount = this.sweetCoffeeMock.sugar
-        if(extra.amount <= 0) {
+        if(this.sweetCoffeeMock.sugar <= 0) {
           extra.disabled = true;
         }
       } else if(extra.name === 'Melk') {
         extra.amount = this.sweetCoffeeMock.milk
-        if(extra.amount <= 0) {
+        if(this.sweetCoffeeMock.milk <= 0) {
           extra.disabled = true;
         }
       }
@@ -108,6 +110,10 @@ class App extends Component {
         if(this.sweetCoffeeMock.sugar <= 0 || this.sweetCoffeeMock.milk <= 0) {
           coffee.disabled = true;
         }
+      } else if(coffee.name === 'Chocolade' || coffee.name === 'Wiener melange') {
+          if(this.sweetCoffeeMock.chocolate <= 0) {
+            coffee.disabled = true;
+          }
       }
       return coffee;
     })
@@ -115,7 +121,7 @@ class App extends Component {
   }
 
   sendDataToFeeder(obj) {
-    this.childRef.current.getData(obj, this.state);
+    this.childRef.current.getData(obj);
   }
 
   makeCoffee = (make, milk, sugar, name) => {

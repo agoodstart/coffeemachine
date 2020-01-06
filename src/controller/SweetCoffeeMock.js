@@ -69,6 +69,7 @@ class SweetCoffeeMachine {
 	 * sugar and milk are values between [0,1] 
 	 */
 	makeChoco = (sugar, milk) => {
+		this.chocolate -= 1;
 		const thisCB = this.checkMilkAndSugar(sugar, milk);
 		return thisCB;
 	}

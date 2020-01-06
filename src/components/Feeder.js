@@ -67,10 +67,7 @@ const Feeder = forwardRef((props, ref) => {
     // useImperativeHandle customizes the instance value that is exposed to parent components when using ref.
     useImperativeHandle(ref, () => ({
 
-        getData(obj, initialState) {
-            // initialState.coffees.map(coffee => coffee.disabled = true);
-            // initialState.extras.map(extra => extra.disabled = true);
-            console.log(initialState)
+        getData(obj) {
             // displayModal(obj);
             displayStatusMessage(obj);
         }
