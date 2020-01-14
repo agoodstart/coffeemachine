@@ -80,6 +80,7 @@ class App extends Component {
     ]
     }
   }
+  
 
   componentDidMount() {
     console.log('Component mounted');
@@ -90,34 +91,106 @@ class App extends Component {
     console.log(this.state.extras);
   }
 
-  updateState = (milk, sugar) => {
-    this.setState({extras: this.state.extras.map(extra => {
-      if(extra.name === 'Suiker') {
-        extra.totalAmount = this.sweetCoffeeMock.sugar
-        if(this.sweetCoffeeMock.sugar <= 0) {
-          extra.disabled = true;
-        }
-      } else if(extra.name === 'Melk') {
-        extra.totalAmount = this.sweetCoffeeMock.milk
-        if(this.sweetCoffeeMock.milk <= 0) {
-          extra.disabled = true;
-        }
+
+  resetState = () => {
+    this.sweetCoffeeMock.errorState = 0;
+    this.sweetCoffeeMock.making = false;
+    this.sweetCoffeeMock = new SweetCoffeeMock();
+
+    this.setState({
+      extras: [
+      {
+        id: 1, 
+        name: 'Suiker',
+        totalAmount: this.sweetCoffeeMock.sugar,
+        currentAmount: 0,
+        disabled: this.disableSugar()
+      },
+      {
+        id: 2,
+        name: 'Melk',
+        totalAmount: this.sweetCoffeeMock.milk,
+        currentAmount: 0,
+        disabled: this.disableMilk()
       }
-      return extra;
-    }),
-    coffees: this.state.coffees.map(coffee => {
-      if(coffee.name === 'Cappuccino') {
-        if(this.sweetCoffeeMock.sugar <= 0 || this.sweetCoffeeMock.milk <= 0) {
-          coffee.disabled = true;
+    ],
+
+    coffees: [
+      {
+        id: 1,
+        name: 'Americano',
+        make: this.sweetCoffeeMock.makeAmericano,
+        disabled: false
+      },
+      {
+        id: 2,
+        name: 'Cappuccino',
+        make: this.sweetCoffeeMock.makeCapoccino,
+        disabled: this.disableCapo()
+      },
+      {
+        id: 3,
+        name: 'Wiener melange',
+        make: this.sweetCoffeeMock.makeWienerMelange,
+        disabled: this.disableChocoladeAndWiener()
+      },
+      {
+        id: 4,
+        name: 'Chocolade',
+        make: this.sweetCoffeeMock.makeChoco,
+        disabled: this.disableChocoladeAndWiener()
+      },
+      {
+        id: 5,
+        name: 'Zwarte thee',
+        make: this.sweetCoffeeMock.makeBlackTea,
+        disabled: false
+      },
+      {
+        id: 6,
+        name: 'Earl Gray',
+        make: this.sweetCoffeeMock.makeEarlGray,
+        disabled: false
+      }
+    ]
+    })
+  }
+
+  updateState = (milk, sugar) => {
+    if(!this.sweetCoffeeMock.errorState) {
+      this.sweetCoffeeMock.making = false;
+      this.sweetCoffeeMock.errorState = 0;
+
+      this.setState({extras: this.state.extras.map(extra => {
+        if(extra.name === 'Suiker') {
+          extra.totalAmount = this.sweetCoffeeMock.sugar
+          if(this.sweetCoffeeMock.sugar <= 0) {
+            extra.disabled = true;
+          }
+        } else if(extra.name === 'Melk') {
+          extra.totalAmount = this.sweetCoffeeMock.milk
+          if(this.sweetCoffeeMock.milk <= 0) {
+            extra.disabled = true;
+          }
         }
-      } else if(coffee.name === 'Chocolade' || coffee.name === 'Wiener melange') {
-          if(this.sweetCoffeeMock.chocolate <= 0) {
+        return extra;
+      }),
+      coffees: this.state.coffees.map(coffee => {
+        if(coffee.name === 'Cappuccino') {
+          if(this.sweetCoffeeMock.sugar <= 0 || this.sweetCoffeeMock.milk <= 0) {
             coffee.disabled = true;
           }
-      }
-      return coffee;
-    })
-  });
+        } else if(coffee.name === 'Chocolade' || coffee.name === 'Wiener melange') {
+            if(this.sweetCoffeeMock.chocolate <= 0) {
+              coffee.disabled = true;
+            }
+        }
+        return coffee;
+      })
+    });
+    } else {
+      return;
+    }
   }
 
   sendDataToFeeder(obj) {
@@ -127,13 +200,12 @@ class App extends Component {
   makeCoffee = (make, milk, sugar, name) => {
       const obj = make(milk.currentAmount, sugar.currentAmount);
 
-      try {
+      if(!obj.info.error) {
         obj.info.onMakingMessage += name;
-        this.sendDataToFeeder(obj)
-      } catch (e) {
-        console.error(e, 'error')
+        this.childRef.current.onSuccess(obj);
+      } else {
+        this.childRef.current.onError(obj);
       }
-
   }
 
   render() {
@@ -151,7 +223,7 @@ class App extends Component {
             <Extras />
           </ExtrasContextProvider>
 
-          <Feeder updateState={this.updateState} ref={this.childRef} />
+          <Feeder resetState={this.resetState} updateState={this.updateState} ref={this.childRef} />
         </div>
       </ColorPalette>
     );

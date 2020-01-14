@@ -9,7 +9,7 @@ export class Modal extends Component {
 
         this.state = {
             message: this.props.message,
-            backColor: '#78DAF9'
+            backColor: '#ff0000'
         }
         this.el = document.createElement('div');
     }
@@ -38,12 +38,13 @@ export class Modal extends Component {
             background: this.state.backColor,
             borderRadius: '2px',
             display: 'inline-block',
-            minHeight: '300px',
+            minHeight: '80%',
             margin: '1rem',
             position: 'relative',
-            minWidth: '300px',
+            minWidth: '70%',
             boxShadow: '0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)',
             justifySelf: 'center',
+            fontSize: '3rem'
           }}
             >
                 {this.state.message}

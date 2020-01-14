@@ -1,4 +1,4 @@
-import {purple, grey} from '@material-ui/core/colors';
+import {purple, grey, red} from '@material-ui/core/colors';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 
 import React from 'react';
@@ -12,7 +12,11 @@ const theme = createMuiTheme({
         secondary: {
             main: grey['900'],
             light: grey['200']
-        }
+        },
+        tertiary: {
+            main: red['900'],
+            light: red['200']
+        },
     },
 });
 

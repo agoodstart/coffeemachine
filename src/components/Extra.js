@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Typography from '@material-ui/core/Typography';
 import { withStyles, makeStyles } from '@material-ui/core/styles';
 import Slider from '@material-ui/core/Slider';
@@ -47,6 +47,15 @@ const valuetext = (value) => {
 }
 
 const Extra = (props) => {
+    const [disabled, setDisabled] = useState(props.disabled);
+
+    useEffect(() => {
+      (function() {
+        setDisabled(props.disabled);
+      })();
+    }, [props.disabled]);
+
+
     const classes = styles();
     const onChange = (e, value) => {
         if(value !== props.currentAmount) {
@@ -69,7 +78,7 @@ const Extra = (props) => {
                 valueLabelDisplay="on"
                 valueLabelFormat={valuetext}
                 onChange={onChange}
-                disabled={props.disabled}
+                disabled={disabled}
             />
         </div>
     )

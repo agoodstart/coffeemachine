@@ -15,13 +15,12 @@ class SweetCoffeeMachine {
 		this.making = false;
 	}
 	
-	checkMilkAndSugar = (sugar, milk) => {
-		this.milk -= milk.toFixed(2);
-		this.sugar -= sugar.toFixed(2);
-
+	startMachine = (sugar, milk) => {
 		if(!this.making) {
 			this.making = true;
-			console.log(this.making);
+			this.milk -= milk.toFixed(2);
+			this.sugar -= sugar.toFixed(2);
+
 			return {
 				callback: this.readyCallback,
 				info: {
@@ -32,6 +31,16 @@ class SweetCoffeeMachine {
 					milk,
 				}
 			};
+		} else {
+			clearTimeout(this.readyCallback);
+			this.errorState = 1;
+			return {
+				callback: this.errorCallback,
+				info: {
+					error: true,
+					onErrorMessage: 'Er ging iets fout'
+				}
+			}
 		}
 	}
 
@@ -40,7 +49,7 @@ class SweetCoffeeMachine {
 	 * sugar and milk are values between [0,1] 
 	 */
 	makeAmericano = (sugar, milk ) => {
-		const thisCB = this.checkMilkAndSugar(sugar, milk);
+		const thisCB = this.startMachine(sugar, milk);
 		return thisCB;
 	}
 	
@@ -49,7 +58,7 @@ class SweetCoffeeMachine {
 	 * sugar and milk are values between [0,1] 
 	 */
 	makeCapoccino = (sugar, milk) => {
-		const thisCB = this.checkMilkAndSugar(sugar, milk);
+		const thisCB = this.startMachine(sugar, milk);
 		return thisCB;
 	}
 	
@@ -58,7 +67,7 @@ class SweetCoffeeMachine {
 	 * sugar and milk are values between [0,1] 
 	 */
 	makeWienerMelange = (sugar, milk) => {
-		const thisCB = this.checkMilkAndSugar(sugar, milk);
+		const thisCB = this.startMachine(sugar, milk);
 		return thisCB;
 	}
 	
@@ -68,7 +77,7 @@ class SweetCoffeeMachine {
 	 */
 	makeChoco = (sugar, milk) => {
 		this.chocolate -= 1;
-		const thisCB = this.checkMilkAndSugar(sugar, milk);
+		const thisCB = this.startMachine(sugar, milk);
 		return thisCB;
 	}
 	
@@ -77,7 +86,7 @@ class SweetCoffeeMachine {
 	 * sugar and milk are values between [0,1] 
 	 */
 	makeBlackTea = (sugar, milk) => {
-		const thisCB = this.checkMilkAndSugar(sugar, milk);
+		const thisCB = this.startMachine(sugar, milk);
 		return thisCB;
 	}
 	
@@ -86,7 +95,7 @@ class SweetCoffeeMachine {
 	 * sugar and milk are values between [0,1] 
 	 */
 	makeEarlGray = (sugar, milk) => {
-		const thisCB = this.checkMilkAndSugar(sugar, milk);
+		const thisCB = this.startMachine(sugar, milk);
 		return thisCB;
 	}
 	
@@ -95,11 +104,7 @@ class SweetCoffeeMachine {
 	 * tiggers a response in a minute
 	 */
 	errorCallback = (callback) => {
-		this._cbError = callback;
-		
-		setTimeout(function() {
-			this._cbError(Math.round(Math.random() * 4));
-		}, Math.random() * 60000);
+		return new Promise(resolve => setTimeout(() => resolve(callback()), 6000));
 	}
 	
 	/**

@@ -50,11 +50,11 @@ const Feeder = forwardRef((props, ref) => {
     function displayModal(obj) {
         const { info, callback } = obj;
 
-        toggleModal(info.onMakingMessage)
+        toggleModal(info.onErrorMessage)
             callback(closeModal.bind(this)).then(() => {
-                toggleModal(info.onReadyMessage);
+                toggleModal(info.onErrorMessage);
                 return new Thenable(closeModal, 2000).then(() => {
-                    console.log('ready to update the state in app.js'); 
+                    props.resetState();
                 });
             });
     }
@@ -67,9 +67,12 @@ const Feeder = forwardRef((props, ref) => {
     // useImperativeHandle customizes the instance value that is exposed to parent components when using ref.
     useImperativeHandle(ref, () => ({
 
-        getData(obj) {
-            // displayModal(obj);
+        onSuccess(obj) {
             displayStatusMessage(obj);
+        },
+
+        onError(obj) {
+            displayModal(obj);
         }
   }));
 
