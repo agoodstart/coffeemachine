@@ -49,7 +49,7 @@ const valuetext = (value) => {
 const Extra = (props) => {
     const classes = styles();
     const onChange = (e, value) => {
-        if(value !== props.amount) {
+        if(value !== props.currentAmount) {
             props.setChange(props.id, value);
         }
     }
@@ -60,11 +60,11 @@ const Extra = (props) => {
                 {props.name}
             </Typography>
             <PrettoSlider
-                defaultValue={props.defaultValue}
+                defaultValue={0}
                 aria-labelledby="discrete-slider-always"
                 step={0.01} 
                 min={0}
-                max={1}
+                max={props.totalAmount}
                 name={props.name}
                 valueLabelDisplay="on"
                 valueLabelFormat={valuetext}

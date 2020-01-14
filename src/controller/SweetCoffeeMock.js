@@ -12,13 +12,16 @@ class SweetCoffeeMachine {
 		this.milk = 1;
 		this.sugar = 1;
 		this.chocolate = 1;
+		this.making = false;
 	}
 	
 	checkMilkAndSugar = (sugar, milk) => {
-		if(sugar && milk) {
-			this.milk -= milk.toFixed(2);
-			this.sugar -= sugar.toFixed(2);
+		this.milk -= milk.toFixed(2);
+		this.sugar -= sugar.toFixed(2);
 
+		if(!this.making) {
+			this.making = true;
+			console.log(this.making);
 			return {
 				callback: this.readyCallback,
 				info: {
@@ -28,11 +31,6 @@ class SweetCoffeeMachine {
 					sugar,
 					milk,
 				}
-			};
-		} else {
-			return {
-				callback: this.errorCallback,
-				error: true
 			};
 		}
 	}

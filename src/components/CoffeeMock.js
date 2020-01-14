@@ -20,7 +20,6 @@ const Coffee = props => {
     const { cExtras } = extrasContext;
 
     function onClick() {
-        console.log(cExtras)
         props.makeCoffee(make, cExtras[0], cExtras[1], name);
     }
 

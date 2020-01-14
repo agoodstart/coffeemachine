@@ -27,15 +27,15 @@ class App extends Component {
       {
         id: 1, 
         name: 'Suiker',
-        amount: this.sweetCoffeeMock.sugar,
-        defaultValue: 0,
+        totalAmount: this.sweetCoffeeMock.sugar,
+        currentAmount: 0,
         disabled: this.disableSugar()
       },
       {
         id: 2,
         name: 'Melk',
-        amount: this.sweetCoffeeMock.milk,
-        defaultValue: 0,
+        totalAmount: this.sweetCoffeeMock.milk,
+        currentAmount: 0,
         disabled: this.disableMilk()
       }
     ],
@@ -93,12 +93,12 @@ class App extends Component {
   updateState = (milk, sugar) => {
     this.setState({extras: this.state.extras.map(extra => {
       if(extra.name === 'Suiker') {
-        extra.amount = this.sweetCoffeeMock.sugar
+        extra.totalAmount = this.sweetCoffeeMock.sugar
         if(this.sweetCoffeeMock.sugar <= 0) {
           extra.disabled = true;
         }
       } else if(extra.name === 'Melk') {
-        extra.amount = this.sweetCoffeeMock.milk
+        extra.totalAmount = this.sweetCoffeeMock.milk
         if(this.sweetCoffeeMock.milk <= 0) {
           extra.disabled = true;
         }
@@ -125,9 +125,15 @@ class App extends Component {
   }
 
   makeCoffee = (make, milk, sugar, name) => {
-      const obj = make(milk.amount, sugar.amount);
-      obj.info.onMakingMessage += name;
-      this.sendDataToFeeder(obj)
+      const obj = make(milk.currentAmount, sugar.currentAmount);
+
+      try {
+        obj.info.onMakingMessage += name;
+        this.sendDataToFeeder(obj)
+      } catch (e) {
+        console.error(e, 'error')
+      }
+
   }
 
   render() {

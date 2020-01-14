@@ -14,7 +14,7 @@ const Extras = () => {
     const setChange = (id, value) => {
         setExtras(extras.map(extra => {
             if(extra.id === id) {
-                extra.amount = value;
+                extra.currentAmount = value;
             }
             return extra;
         }))
