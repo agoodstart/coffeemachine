@@ -31,7 +31,7 @@ const Feeder = forwardRef((props, ref) => {
         callback(setStatusMessage.bind(this, {message: info.onReadyMessage}))
             .then(() => {
                 return new Thenable(setInitialMessage, 2000).then(() => {
-                    props.updateState(info.milk, info.sugar);
+                    props.updateState();
                 })
         });
     }

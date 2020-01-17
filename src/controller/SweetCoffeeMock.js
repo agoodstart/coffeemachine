@@ -13,6 +13,23 @@ class SweetCoffeeMachine {
 		this.sugar = 1;
 		this.chocolate = 1;
 		this.making = false;
+
+		this.success = {
+			callback: this.readyCallback,
+			info: {
+				error: false,
+				onMakingMessage: 'Machine maakt ',
+				onReadyMessage: 'Klaar voor keuze',
+			}
+		}
+
+		this.error = {
+			callback: this.errorCallback,
+			info: {
+				error: true,
+				onErrorMessage: 'Er ging iets fout'
+			}
+		}
 	}
 	
 	startMachine = (sugar, milk) => {
@@ -27,8 +44,6 @@ class SweetCoffeeMachine {
 					error: false,
 					onMakingMessage: 'Machine maakt ',
 					onReadyMessage: 'Klaar voor keuze',
-					sugar,
-					milk,
 				}
 			};
 		} else {

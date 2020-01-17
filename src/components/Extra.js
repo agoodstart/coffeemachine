@@ -41,11 +41,6 @@ const PrettoSlider = withStyles({
   },
 })(Slider);
 
-
-const valuetext = (value) => {
-    return `${Math.round(value * 100)}%`;
-}
-
 const Extra = (props) => {
     const [disabled, setDisabled] = useState(props.disabled);
 
@@ -75,8 +70,8 @@ const Extra = (props) => {
                 min={0}
                 max={props.totalAmount}
                 name={props.name}
-                valueLabelDisplay="on"
-                valueLabelFormat={valuetext}
+                valueLabelDisplay={disabled ? 'off' : 'on'}
+                valueLabelFormat={(value) => `${Math.round(value * 100)}%`}
                 onChange={onChange}
                 disabled={disabled}
             />

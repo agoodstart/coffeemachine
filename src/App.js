@@ -5,6 +5,7 @@ import background from './rect3717.png';
 import Coffees from './components/Coffees';
 import Extras from './components/Extras';
 import SweetCoffeeMock from './controller/SweetCoffeeMock';
+import State from './State';
 import './App.css';
 import {ExtrasContextProvider} from './context';
 
@@ -14,13 +15,6 @@ class App extends Component {
 
     this.sweetCoffeeMock = new SweetCoffeeMock();
     this.childRef = React.createRef();
-
-    this.disableCapo = () => this.sweetCoffeeMock.milk <= 0 || this.sweetCoffeeMock.sugar <= 0;
-
-    this.disableSugar = () => this.sweetCoffeeMock.sugar <= 0;
-    this.disableMilk = () => this.sweetCoffeeMock.milk <= 0;
-
-    this.disableChocoladeAndWiener = () => this.sweetCoffeeMock.chocolate <= 0;
     
     this.state = {
       extras: [
@@ -29,14 +23,14 @@ class App extends Component {
         name: 'Suiker',
         totalAmount: this.sweetCoffeeMock.sugar,
         currentAmount: 0,
-        disabled: this.disableSugar()
+        disabled: false
       },
       {
         id: 2,
         name: 'Melk',
         totalAmount: this.sweetCoffeeMock.milk,
         currentAmount: 0,
-        disabled: this.disableMilk()
+        disabled: false
       }
     ],
 
@@ -51,19 +45,19 @@ class App extends Component {
         id: 2,
         name: 'Cappuccino',
         make: this.sweetCoffeeMock.makeCapoccino,
-        disabled: this.disableCapo()
+        disabled: false
       },
       {
         id: 3,
         name: 'Wiener melange',
         make: this.sweetCoffeeMock.makeWienerMelange,
-        disabled: this.disableChocoladeAndWiener()
+        disabled: false
       },
       {
         id: 4,
         name: 'Chocolade',
         make: this.sweetCoffeeMock.makeChoco,
-        disabled: this.disableChocoladeAndWiener()
+        disabled: false
       },
       {
         id: 5,
@@ -95,68 +89,28 @@ class App extends Component {
   resetState = () => {
     this.sweetCoffeeMock.errorState = 0;
     this.sweetCoffeeMock.making = false;
-    this.sweetCoffeeMock = new SweetCoffeeMock();
+    this.sweetCoffeeMock.sugar = 1;
+    this.sweetCoffeeMock.milk = 1;
+    this.sweetCoffeeMock.chocolate = 1;
 
     this.setState({
-      extras: [
-      {
-        id: 1, 
-        name: 'Suiker',
-        totalAmount: this.sweetCoffeeMock.sugar,
-        currentAmount: 0,
-        disabled: this.disableSugar()
-      },
-      {
-        id: 2,
-        name: 'Melk',
-        totalAmount: this.sweetCoffeeMock.milk,
-        currentAmount: 0,
-        disabled: this.disableMilk()
-      }
-    ],
+      extras: this.state.extras.map(extra => {
+        extra.totalAmount = 1;
+        extra.currentAmount = 0;
+        extra.disabled = false;
 
-    coffees: [
-      {
-        id: 1,
-        name: 'Americano',
-        make: this.sweetCoffeeMock.makeAmericano,
-        disabled: false
-      },
-      {
-        id: 2,
-        name: 'Cappuccino',
-        make: this.sweetCoffeeMock.makeCapoccino,
-        disabled: this.disableCapo()
-      },
-      {
-        id: 3,
-        name: 'Wiener melange',
-        make: this.sweetCoffeeMock.makeWienerMelange,
-        disabled: this.disableChocoladeAndWiener()
-      },
-      {
-        id: 4,
-        name: 'Chocolade',
-        make: this.sweetCoffeeMock.makeChoco,
-        disabled: this.disableChocoladeAndWiener()
-      },
-      {
-        id: 5,
-        name: 'Zwarte thee',
-        make: this.sweetCoffeeMock.makeBlackTea,
-        disabled: false
-      },
-      {
-        id: 6,
-        name: 'Earl Gray',
-        make: this.sweetCoffeeMock.makeEarlGray,
-        disabled: false
-      }
-    ]
+        return extra
+      }),
+
+    coffees: this.state.coffees.map(coffee => {
+      coffee.disabled = false;
+
+      return coffee;
+    })
     })
   }
 
-  updateState = (milk, sugar) => {
+  updateState = () => {
     if(!this.sweetCoffeeMock.errorState) {
       this.sweetCoffeeMock.making = false;
       this.sweetCoffeeMock.errorState = 0;
