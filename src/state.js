@@ -87,6 +87,69 @@ class State {
             }
           ]
     }
+
+    updateState = (appState) => {
+        if(!this.sweetCoffeeMock.errorState) {
+            this.sweetCoffeeMock.making = false;
+            this.sweetCoffeeMock.errorState = 0;
+
+            return {
+                extras: appState.extras.map(extra => {
+                    if(extra.name === 'Suiker') {
+                        extra.totalAmount = this.sweetCoffeeMock.sugar
+                        if(this.sweetCoffeeMock.sugar <= 0) {
+                          extra.disabled = true;
+                        }
+                      } else if(extra.name === 'Melk') {
+                        extra.totalAmount = this.sweetCoffeeMock.milk
+                        if(this.sweetCoffeeMock.milk <= 0) {
+                          extra.disabled = true;
+                        }
+                      }
+                      return extra;
+                }),
+
+                coffees: appState.coffees.map(coffee => {
+                    if(coffee.name === 'Cappuccino') {
+                        if(this.sweetCoffeeMock.sugar <= 0 || this.sweetCoffeeMock.milk <= 0) {
+                          coffee.disabled = true;
+                        }
+                      } else if(coffee.name === 'Chocolade' || coffee.name === 'Wiener melange') {
+                          if(this.sweetCoffeeMock.chocolate <= 0) {
+                            coffee.disabled = true;
+                          }
+                      }
+                      return coffee;
+                })
+            };
+        } else {
+        return;
+        }
+    }
+
+    resetState = (appState) => {
+        this.sweetCoffeeMock.errorState = 0;
+        this.sweetCoffeeMock.making = false;
+        this.sweetCoffeeMock.sugar = 1;
+        this.sweetCoffeeMock.milk = 1;
+        this.sweetCoffeeMock.chocolate = 1;
+    
+        return {
+            extras: appState.extras.map(extra => {
+                extra.totalAmount = 1;
+                extra.currentAmount = 0;
+                extra.disabled = false;
+        
+                return extra
+            }),
+    
+            coffees: appState.coffees.map(coffee => {
+                coffee.disabled = false;
+        
+                return coffee;
+            })
+        }
+    }
 }
 
 export default State;
