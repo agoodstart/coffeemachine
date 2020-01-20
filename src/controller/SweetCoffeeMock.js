@@ -8,7 +8,7 @@
 class SweetCoffeeMachine {
 
 	constructor()  {
-		this.errorState = 0;
+		this.errorState = 3;
 		this.errorMessages = ['', 'Geen water: Geen waterdruk', 'Interne Statusfout: Machine is kapot', 'Temperatuur te laag: Machine is kapot'];
 		this.milk = 1;
 		this.sugar = 1;
@@ -19,7 +19,6 @@ class SweetCoffeeMachine {
 			callback: this.readyCallback,
 			info: {
 				error: false,
-				onMakingMessage: 'Machine maakt ',
 				onReadyMessage: 'Klaar voor keuze',
 			}
 		}
@@ -43,6 +42,7 @@ class SweetCoffeeMachine {
 		} else {
 			clearTimeout(this.readyCallback);
 			this.errorState = 2;
+			this.error.info.onErrorMessage = this.errorMessages[this.errorState];
 			return this.error;
 		}
 	}

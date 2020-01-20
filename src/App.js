@@ -48,7 +48,7 @@ class App extends Component {
       const obj = make(milk.currentAmount, sugar.currentAmount);
 
       if(!obj.info.error) {
-        obj.info.onMakingMessage += name;
+        obj.info.onMakingMessage = `Machine maakt ${name}`;
         this.childRef.current.onSuccess(obj);
       } else {
         this.childRef.current.onError(obj);
