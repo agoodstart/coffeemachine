@@ -5,27 +5,6 @@ class State {
         this.sweetCoffeeMock = new SweetCoffeeMock();
         this.coffees = this.createCoffees();
         this.extras = this.createExtras();
-
-        this.errorCallback = this.sweetCoffeeMock.errorCallback;
-        this.readyCallback = this.sweetCoffeeMock.readyCallback;
-        this.making = false;
-
-        this.success = {
-			callback: this.readyCallback,
-			info: {
-				error: false,
-				onMakingMessage: 'Machine maakt ',
-				onReadyMessage: 'Klaar voor keuze',
-			}
-        }
-        
-        this.error = {
-			callback: this.errorCallback,
-			info: {
-				error: true,
-				onErrorMessage: 'Er ging iets fout'
-			}
-		}
     }
 
     createCoffees = () => {
@@ -124,6 +103,12 @@ class State {
             };
         } else {
         return;
+        }
+    }
+
+    checkError = () => {
+        if(this.sweetCoffeeMock.errorState) {
+            return this.sweetCoffeeMock.error
         }
     }
 

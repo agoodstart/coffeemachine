@@ -24,9 +24,7 @@ export class StatusMessage extends Component {
     }
     
     componentDidUpdate() {
-        // this.setState({
-        //     message: this.props.message
-        // })
+
     }
     
 
@@ -34,9 +32,11 @@ export class StatusMessage extends Component {
         const {classes} = this.props;
         return (
             <div>
-                <Typography className={classes.statusText} variant="h5" gutterBottom>
-                    {this.state.message}
-                </Typography>
+                {this.state.message.length > 0 &&
+                    <Typography className={classes.statusText} variant="h5" gutterBottom>
+                        {this.state.message}
+                    </Typography>
+                }
             </div>
         );
     }

@@ -9,6 +9,7 @@ class SweetCoffeeMachine {
 
 	constructor()  {
 		this.errorState = 0;
+		this.errorMessages = ['', 'Geen water: Geen waterdruk', 'Interne Statusfout: Machine is kapot', 'Temperatuur te laag: Machine is kapot'];
 		this.milk = 1;
 		this.sugar = 1;
 		this.chocolate = 1;
@@ -27,7 +28,7 @@ class SweetCoffeeMachine {
 			callback: this.errorCallback,
 			info: {
 				error: true,
-				onErrorMessage: 'Er ging iets fout'
+				onErrorMessage: this.errorMessages[this.errorState]
 			}
 		}
 	}
@@ -38,24 +39,11 @@ class SweetCoffeeMachine {
 			this.milk -= milk.toFixed(2);
 			this.sugar -= sugar.toFixed(2);
 
-			return {
-				callback: this.readyCallback,
-				info: {
-					error: false,
-					onMakingMessage: 'Machine maakt ',
-					onReadyMessage: 'Klaar voor keuze',
-				}
-			};
+			return this.success;
 		} else {
 			clearTimeout(this.readyCallback);
-			this.errorState = 1;
-			return {
-				callback: this.errorCallback,
-				info: {
-					error: true,
-					onErrorMessage: 'Er ging iets fout'
-				}
-			}
+			this.errorState = 2;
+			return this.error;
 		}
 	}
 

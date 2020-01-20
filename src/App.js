@@ -23,7 +23,11 @@ class App extends Component {
   
 
   componentDidMount() {
-    console.log('mounting');
+    const errorObj = this.newState.checkError();
+
+    if(errorObj) {
+      this.childRef.current.onError(errorObj)
+    }
   }
 
   componentDidUpdate() {
