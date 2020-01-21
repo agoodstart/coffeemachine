@@ -1,4 +1,4 @@
-import SweetCoffeeMock from './controller/SweetCoffeeMock';
+import SweetCoffeeMock from './SweetCoffeeMock';
 
 class State {
     constructor() {

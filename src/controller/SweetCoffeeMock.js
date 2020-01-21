@@ -12,7 +12,7 @@ class SweetCoffeeMachine {
 		this.sugar = 1;
 		this.chocolate = 5;
 		this.making = false;
-		this.water = 1;
+		this.water = 10;
 		this.temperature = 95;
 	}
 	

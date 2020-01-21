@@ -34,20 +34,24 @@ export class Modal extends Component {
         return ReactDOM.createPortal(
             <div className=''
             style={{
-            padding: 20,
+            padding: '5rem 10rem 5rem 10rem',
             background: this.state.backColor,
             borderRadius: '2px',
             display: 'inline-block',
             minHeight: '80%',
             margin: '1rem',
             position: 'relative',
-            minWidth: '70%',
+            width: '70%',
             boxShadow: '0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)',
             justifySelf: 'center',
-            fontSize: '3rem'
+            alignItems: 'space-around',
+            fontSize: '3rem',
+            textAlign: 'center'
           }}
             >
-                {this.state.message}
+                <p>Helaas is er een technische storing:</p>
+                <p>{this.state.message}</p>
+                <p>Het maken van drank is helaas niet mogelijk</p>
             </div>,
             this.el
         )
