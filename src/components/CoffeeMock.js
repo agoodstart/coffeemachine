@@ -15,12 +15,20 @@ const styles = makeStyles((theme) => ({
 
 const Coffee = props => {
     const classes = styles();
-    const { name, make } = props.coffee;
     const extrasContext = useContext(ExtrasContext);
     const { cExtras } = extrasContext;
 
+    const obj = {
+        coffeeName: props.coffee.name,
+        coffeeMethod: props.coffee.make,
+        coffeeIngredients: {
+            milk: cExtras[0],
+            sugar: cExtras[1],
+        }
+    }
+
     function onClick() {
-        props.makeCoffee(make, cExtras[0], cExtras[1], name);
+        props.makeCoffee(obj);
     }
 
     return <Button 
