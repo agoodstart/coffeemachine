@@ -20,21 +20,23 @@ class App extends Component {
       coffees: this.newState.coffees
     };
   }
-  
 
-  componentDidMount() {
-    const errorObj = this.newState.checkError();
+  checkError = () => {
+    const errorObj = this.newState.checkForErrorsOnMountingOrUpdating()
 
-    if(errorObj) {
+    if(errorObj.info.error) {
       this.childRef.current.onError(errorObj)
     }
   }
+  
 
-  componentDidUpdate() {
-    console.log('Component Did update');
-    console.log(this.state.extras);
+  componentDidMount() {
+    this.checkError();
   }
 
+  componentDidUpdate() {
+    this.checkError();
+  }
 
   resetState = () => {
     this.setState(this.newState.resetState(this.state));
@@ -44,15 +46,14 @@ class App extends Component {
     this.setState(this.newState.updateState(this.state));
   }
 
-  makeCoffee = (make, milk, sugar, name) => {
-      const obj = make(milk.currentAmount, sugar.currentAmount);
+  makeCoffee = (coffeeObj) => {
+    const obj = this.newState.checkForErrorsOnMaking(coffeeObj);
 
-      if(!obj.info.error) {
-        obj.info.onMakingMessage = `Machine maakt ${name}`;
-        this.childRef.current.onSuccess(obj);
-      } else {
-        this.childRef.current.onError(obj);
-      }
+    if(!obj.info.error) {
+      this.childRef.current.onSuccess(obj);
+    } else {
+      this.childRef.current.onError(obj);
+    }
   }
 
   render() {

@@ -8,44 +8,36 @@
 class SweetCoffeeMachine {
 
 	constructor()  {
-		this.errorState = 0;
-		this.errorMessages = ['', 'Geen water: Geen waterdruk', 'Interne Statusfout: Machine is kapot', 'Temperatuur te laag: Machine is kapot'];
 		this.milk = 1;
 		this.sugar = 1;
 		this.chocolate = 5;
 		this.making = false;
 		this.water = 10;
-		this.temperature = 37;
-
-		this.success = {
-			callback: this.readyCallback,
-			info: {
-				error: false,
-				onReadyMessage: 'Klaar voor keuze',
-			}
-		}
-
-		this.error = {
-			callback: this.errorCallback,
-			info: {
-				error: true,
-				onErrorMessage: this.errorMessages[this.errorState]
-			}
-		}
+		this.temperature = 95;
 	}
 	
-	startMachine = (sugar, milk) => {
-		if(!this.making) {
-			this.making = true;
-			this.milk -= milk.toFixed(2);
-			this.sugar -= sugar.toFixed(2);
-
-			return this.success;
+	checkMachine() {
+		if(this.water = 0) {
+			return 1;
+		} else if(this.making) {
+			return 2;
+		} else if(this.temperature < 88) {
+			return 3;
 		} else {
-			clearTimeout(this.readyCallback);
-			this.errorState = 2;
-			this.error.info.onErrorMessage = this.errorMessages[this.errorState];
-			return this.error;
+			return 0;
+		}
+	}
+
+	startMachine = (sugar, milk) => {
+		if(this.checkMachine() > 0) {
+			return this.checkMachine()
+		} else {
+			this.making = true;
+			this.milk -= milk.currentAmount.toFixed(2);
+			this.sugar -= sugar.currentAmount.toFixed(2);
+			this.water -= 1;
+
+			return this.checkMachine();
 		}
 	}
 

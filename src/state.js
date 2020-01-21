@@ -5,6 +5,8 @@ class State {
         this.sweetCoffeeMock = new SweetCoffeeMock();
         this.coffees = this.createCoffees();
         this.extras = this.createExtras();
+        this.errorMessages = ['', 'Geen water: Geen waterdruk', 'Interne Statusfout: Machine is kapot', 'Temperatuur te laag: Machine is kapot'];
+        this.errorState = 0;
     }
 
     createCoffees = () => {
@@ -68,9 +70,9 @@ class State {
     }
 
     updateState = (appState) => {
-        if(!this.sweetCoffeeMock.errorState) {
+        if(!this.errorState) {
             this.sweetCoffeeMock.making = false;
-            this.sweetCoffeeMock.errorState = 0;
+            this.errorState = 0;
 
             return {
                 extras: appState.extras.map(extra => {
@@ -106,18 +108,53 @@ class State {
         }
     }
 
-    checkError = () => {
-        if(this.sweetCoffeeMock.errorState) {
-            return this.sweetCoffeeMock.error
+    onSuccess = (name) => {
+      return {
+        callback: this.sweetCoffeeMock.readyCallback,
+        info: {
+          error: false,
+          onMakingMessage = `Machine maakt ${name}`,
+          onReadyMessage: 'Klaar voor keuze',
         }
+      }
+    }
+
+    onError = () => {
+      return {
+        callback: this.sweetCoffeeMock.errorCallback,
+        info: {
+          error: this.errorState > 0,
+          onErrorMessage: this.errorMessages[this.errorState]
+        }
+      }
+    }
+
+    checkForErrorsOnMountingOrUpdating = () => {
+      this.sweetCoffeeMock.checkMachine();
+      return this.onError();
+    }
+
+    checkForErrorsOnMaking = (coffeeObj) => {
+      const {milk, sugar} = coffeeObj.coffeeIngredients;
+
+      this.errorState = coffeeObj.coffeeMethod(milk, sugar);
+
+      if(!this.errorState) {
+        return this.onSuccess(coffeeObj.coffeeName)
+      } else {
+        clearTimeout(this.sweetCoffeeMock.readyCallback);
+        return this.onError();
+      }
     }
 
     resetState = (appState) => {
-        this.sweetCoffeeMock.errorState = 0;
+        this.errorState = 0;
         this.sweetCoffeeMock.making = false;
         this.sweetCoffeeMock.sugar = 1;
         this.sweetCoffeeMock.milk = 1;
-        this.sweetCoffeeMock.chocolate = 1;
+        this.sweetCoffeeMock.chocolate = 5;
+        this.sweetCoffeeMock.water = 10;
+        this.sweetCoffeeMock.temperature = 95;
     
         return {
             extras: appState.extras.map(extra => {
