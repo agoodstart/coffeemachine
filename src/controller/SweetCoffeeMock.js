@@ -8,12 +8,14 @@
 class SweetCoffeeMachine {
 
 	constructor()  {
-		this.errorState = 3;
+		this.errorState = 0;
 		this.errorMessages = ['', 'Geen water: Geen waterdruk', 'Interne Statusfout: Machine is kapot', 'Temperatuur te laag: Machine is kapot'];
 		this.milk = 1;
 		this.sugar = 1;
-		this.chocolate = 1;
+		this.chocolate = 5;
 		this.making = false;
+		this.water = 10;
+		this.temperature = 37;
 
 		this.success = {
 			callback: this.readyCallback,
@@ -70,6 +72,7 @@ class SweetCoffeeMachine {
 	 * sugar and milk are values between [0,1] 
 	 */
 	makeWienerMelange = (sugar, milk) => {
+		this.chocolate -= 1;
 		const thisCB = this.startMachine(sugar, milk);
 		return thisCB;
 	}
