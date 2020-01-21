@@ -12,12 +12,12 @@ class SweetCoffeeMachine {
 		this.sugar = 1;
 		this.chocolate = 5;
 		this.making = false;
-		this.water = 10;
+		this.water = 1;
 		this.temperature = 95;
 	}
 	
 	checkMachine() {
-		if(this.water = 0) {
+		if(this.water === 0) {
 			return 1;
 		} else if(this.making) {
 			return 2;
@@ -29,7 +29,9 @@ class SweetCoffeeMachine {
 	}
 
 	startMachine = (sugar, milk) => {
-		if(this.checkMachine() > 0) {
+		const error = this.checkMachine();
+
+		if(error > 0) {
 			return this.checkMachine()
 		} else {
 			this.making = true;
@@ -37,7 +39,7 @@ class SweetCoffeeMachine {
 			this.sugar -= sugar.currentAmount.toFixed(2);
 			this.water -= 1;
 
-			return this.checkMachine();
+			return error;
 		}
 	}
 

@@ -15,12 +15,13 @@ const styles = makeStyles((theme) => ({
 
 const Coffee = props => {
     const classes = styles();
+    const {name, make} = props.coffee;
     const extrasContext = useContext(ExtrasContext);
     const { cExtras } = extrasContext;
 
     const obj = {
-        coffeeName: props.coffee.name,
-        coffeeMethod: props.coffee.make,
+        coffeeName: name,
+        coffeeMethod: make,
         coffeeIngredients: {
             milk: cExtras[0],
             sugar: cExtras[1],

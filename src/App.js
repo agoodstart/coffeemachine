@@ -25,17 +25,17 @@ class App extends Component {
     const errorObj = this.newState.checkForErrorsOnMountingOrUpdating()
 
     if(errorObj.info.error) {
-      this.childRef.current.onError(errorObj)
+      return this.childRef.current.onError(errorObj)
     }
   }
   
 
   componentDidMount() {
-    this.checkError();
+    return this.checkError();
   }
 
   componentDidUpdate() {
-    this.checkError();
+    return this.checkError();
   }
 
   resetState = () => {

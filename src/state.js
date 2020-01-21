@@ -108,12 +108,38 @@ class State {
         }
     }
 
+    resetState = (appState) => {
+      this.errorState = 0;
+      this.sweetCoffeeMock.making = false;
+      this.sweetCoffeeMock.sugar = 1;
+      this.sweetCoffeeMock.milk = 1;
+      this.sweetCoffeeMock.chocolate = 5;
+      this.sweetCoffeeMock.water = 10;
+      this.sweetCoffeeMock.temperature = 95;
+  
+      return {
+          extras: appState.extras.map(extra => {
+              extra.totalAmount = 1;
+              extra.currentAmount = 0;
+              extra.disabled = false;
+      
+              return extra
+          }),
+  
+          coffees: appState.coffees.map(coffee => {
+              coffee.disabled = false;
+      
+              return coffee;
+          })
+      }
+  }
+
     onSuccess = (name) => {
       return {
         callback: this.sweetCoffeeMock.readyCallback,
         info: {
           error: false,
-          onMakingMessage = `Machine maakt ${name}`,
+          onMakingMessage: `Machine maakt ${name}`,
           onReadyMessage: 'Klaar voor keuze',
         }
       }
@@ -130,7 +156,7 @@ class State {
     }
 
     checkForErrorsOnMountingOrUpdating = () => {
-      this.sweetCoffeeMock.checkMachine();
+      this.errorState = this.sweetCoffeeMock.checkMachine();
       return this.onError();
     }
 
@@ -145,32 +171,6 @@ class State {
         clearTimeout(this.sweetCoffeeMock.readyCallback);
         return this.onError();
       }
-    }
-
-    resetState = (appState) => {
-        this.errorState = 0;
-        this.sweetCoffeeMock.making = false;
-        this.sweetCoffeeMock.sugar = 1;
-        this.sweetCoffeeMock.milk = 1;
-        this.sweetCoffeeMock.chocolate = 5;
-        this.sweetCoffeeMock.water = 10;
-        this.sweetCoffeeMock.temperature = 95;
-    
-        return {
-            extras: appState.extras.map(extra => {
-                extra.totalAmount = 1;
-                extra.currentAmount = 0;
-                extra.disabled = false;
-        
-                return extra
-            }),
-    
-            coffees: appState.coffees.map(coffee => {
-                coffee.disabled = false;
-        
-                return coffee;
-            })
-        }
     }
 }
 
